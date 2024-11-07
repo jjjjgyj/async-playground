@@ -1,0 +1,8 @@
+services:
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    command: python /app/test_async.py
