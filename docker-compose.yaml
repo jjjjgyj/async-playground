@@ -5,4 +5,4 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./app:/app
-    command: python /app/test_async.py
+    command: python /app/test.py

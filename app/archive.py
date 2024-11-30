@@ -1,3 +1,24 @@
+import asyncio
+from datetime import datetime as time
+from collections import defaultdict
+
+def execute():
+    asyncio.run(run_tasks())   
+
+async def run_tasks():
+    result = defaultdict(int)
+    for i in range(10):
+        print(i)
+        result[i] = asyncio.create_task(async_task())
+        print(i*10)
+    
+    await asyncio.gather(*result.values())
+
+def async_task():
+    asyncio.sleep(1)
+    return 1
+
+
 # import asyncio
 # from datetime import datetime as time
 # from collections import defaultdict
@@ -35,51 +56,63 @@
 #     print("result dict: ", result_dict)
 # asyncio.run(run_tasks())
 
-'''
-Async processing code in a stella structure
-'''
-import asyncio
-from datetime import datetime as time
-import time as real_time
-from collections import defaultdict
+# '''
+# Async processing code in a stella structure
+# '''
+# import asyncio
+# from datetime import datetime as time
+# import time as real_time
+# from collections import defaultdict
 
-def execute():
-    print("test isinstance: ", isinstance(1, int))
-    start_time = time.now()
-    print("start at: ", start_time)
-    result = asyncio.run(run_tasks())   
-    print('result == ', result)
-    end_time = time.now()
-    print("end at: ", end_time)
-    print("total time: ", end_time - start_time)
+# def execute():
+#     print("test isinstance: ", isinstance(1, int))
+#     start_time = time.now()
+#     print("start at: ", start_time)
+#     result = asyncio.run(run_tasks())   
+#     print('result == ', result)
+#     end_time = time.now()
+#     print("end at: ", end_time)
+#     print("total time: ", end_time - start_time)
 
-async def run_tasks():
-    result = defaultdict(int)
-    for i in range(10):
-        # print(i)
-        result[i] = asyncio.create_task(async_task(i))
-        # print(i*10)
+# async def run_tasks():
+#     result = defaultdict(int)
+#     for i in range(10):
+#         # print(i)
+#         result[i] = asyncio.create_task(async_task(i))
+#         # print(i*10)
     
-    deadline_seconds = 6
-    try:
-        await asyncio.wait_for(asyncio.gather(*result.values()), timeout=deadline_seconds)
-    except:
-        pass
+#     deadline_seconds = 6
+#     try:
+#         await asyncio.wait_for(asyncio.gather(*result.values()), timeout=deadline_seconds)
+#     except:
+#         pass
 
-    success_task_cnt = sum([v.result() for k, v in result.items() if not v.cancelled() and not v.exception()])
-    return success_task_cnt
+#     success_task_cnt = sum([v.result() for k, v in result.items() if not v.cancelled() and not v.exception()])
+#     return success_task_cnt
 
-async def async_task(i):
-    try:
-        await asyncio.sleep(5)
-        if i == 1:
-            raise ValueError("This is a test error")
-        return 1
-    except Exception as e:
-        print(f"Task {i} failed with error: {e}")
-        return 0
+# async def async_task(i):
+#     try:
+#         await asyncio.sleep(5)
+#         if i == 1:
+#             raise ValueError("This is a test error")
+#         return 1
+#     except Exception as e:
+#         print(f"Task {i} failed with error: {e}")
+#         return 0
+
+from math import ceil
 if __name__ == '__main__':
-    execute()
+    num_list = [1] * 888
+    batch_size = 100
+    i = 0
+    for batch_cnt in range(1, ceil(len(num_list) // batch_size) + 1):
+        start, end = i, batch_cnt * batch_size
+        print(batch_cnt, start, end, len(num_list), i)
+        while i < end and i < len(num_list):
+            # print(i)
+            i += 1
+        # print("\n\n", i)
+        print(f"finish batch {start} to {end}, batch num {batch_cnt}")
 
 # '''
 # Sync processing code in a stella structure
