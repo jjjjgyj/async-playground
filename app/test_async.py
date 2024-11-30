@@ -44,6 +44,7 @@ import time as real_time
 from collections import defaultdict
 
 def execute():
+    print("test isinstance: ", isinstance(1, int))
     start_time = time.now()
     print("start at: ", start_time)
     result = asyncio.run(run_tasks())   
